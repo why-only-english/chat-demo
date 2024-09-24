@@ -25,4 +25,5 @@ uvicorn run:app --reload --port 8000
 
 ## 스크린샷
 
-![스크린샷 2024-01-09 오후 3 13 37](https://github.com/CoreDotToday/coredot-chat-demo/assets/5226919/be19882a-ce3f-4d49-8b40-a21a4c1dfb1e)
+![image](https://github.com/user-attachments/assets/cb71e555-621d-4a8d-b86d-da93cb7feb14)
+![image](https://github.com/user-attachments/assets/23979336-4c82-4f45-8a94-9f59d617190c)
