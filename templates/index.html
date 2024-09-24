@@ -26,7 +26,6 @@
             });
 
             function join(name) {
-                // var host = window.location.host.split(':')[0];
                 var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
                 var ws_path = ws_scheme + '://' + window.location.host;
                 var ws = new WebSocket(ws_path);
@@ -44,7 +43,7 @@
                     }
 
                     var msg = struct.clone();
-                    msg.find('.time').text((new Date()).toString("HH:mm:ss"));
+                    msg.find('.time').text((new Date()).toLocaleTimeString());
 
                     if (action == 'message') {
                         var matches;
@@ -78,145 +77,132 @@
             }
         });
     </script>
-    <style type="text/css" media="screen">
+    <style>
         * {
-            font-family: Georgia;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        a {
-            color: #000;
-            text-decoration: none;
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        div.bordered {
-            margin: 0 auto;
-            margin-top: 100px;
-            width: 600px;
-            padding: 20px;
+        .container {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 40px;
             text-align: center;
-            border: 10px solid #ddd;
-            -webkit-border-radius: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007aff;
+        }
+
+        .join-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007aff;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .join-btn:hover {
+            background-color: #005bb5;
+        }
+
+        .message-box {
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .message-box ul {
+            list-style-type: none;
+        }
+
+        .message-box li {
+            margin-bottom: 10px;
+        }
+
+        .message-box li .user {
+            font-weight: bold;
+            color: #007aff;
+        }
+
+        .message-box li .self {
+            color: #005bb5;
+        }
+
+        .message-box li .time {
+            color: #888;
+            font-size: 12px;
+            float: right;
         }
 
         #error {
-            background-color: #BA0000;
-            color: #fff;
+            color: #ff4d4f;
             font-weight: bold;
-        }
-
-        #ask {
-            font-size: 20pt;
-        }
-
-        #ask input {
-            font-size: 20pt;
-            padding: 10px;
-            margin: 0 10px;
-        }
-
-        #ask span.join {
-            padding: 10px;
-            background-color: #ddd;
-            -webkit-border-radius: 10px;
-        }
-
-        #channel {
-            margin-top: 100px;
-            height: 480px;
-            position: relative;
-        }
-
-        #channel div#descr {
-            position: absolute;
-            left: -10px;
-            top: -190px;
-            font-size: 13px;
-            text-align: left;
-            line-height: 20px;
-            padding: 5px;
-            width: 630px;
-        }
-
-        div#msgs {
-            overflow-y: scroll;
-            height: 400px;
-        }
-
-        div#msgs ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-        }
-
-        div#msgs li {
-            line-height: 20px;
-        }
-
-        div#msgs li span.user {
-            color: #ff9900;
-        }
-
-        div#msgs li span.user.self {
-            color: #aa2211;
-        }
-
-        div#msgs li span.time {
-            float: right;
-            margin-right: 5px;
-            color: #aaa;
-            font-family: "Courier New";
-            font-size: 12px;
-        }
-
-        div#msgs li.control {
-            text-align: center;
-        }
-
-        div#msgs li.control span.message {
-            color: #aaa;
-        }
-
-        div#input {
-            text-align: left;
+            background-color: #fff1f0;
+            border: 1px solid #ffa39e;
+            border-radius: 8px;
+            padding: 20px;
             margin-top: 20px;
-        }
-
-        div#input #message {
-            width: 600px;
-            border: 5px solid #bbb;
-            -webkit-border-radius: 3px;
-            font-size: 30pt;
         }
     </style>
 </head>
 
 <body>
-    <div id="error" class="bordered" style="display: none;">
-        This browser has no native WebSocket support.<br />
-        Use a WebKit nightly or Google Chrome.
-    </div>
-    <div id="ask" class="bordered" style="display: none;">
-        닉네임: <input type="text" id="name" /> <a href="#"><span class="join">들어가기</span></a>
-    </div>
-    <div id="channel" class="bordered" style="display: none;">
-        <div id="descr" class="bordered">
-            <strong><a href="https://github.com/CoreDotToday/coredot-chat-demo" target="_blank">coredot-chat-demo</a> : </strong> 헤더 없이는 데모로 작동합니다. 여러 개의 브라우저에서 계정 테스트를 수행하세요.
+    <div class="container">
+        <div id="error" style="display: none;">
+            This browser does not support WebSockets. Please use an updated browser.
         </div>
-        <div id="msgs">
-            <ul>
-                <li class="message" style="display: none">
-                    <span class="user"></span><span class="message"></span>
-                    <span class="time"></span>
-                </li>
-            </ul>
+
+        <div id="ask" style="display: none;">
+            <input type="text" id="name" placeholder="Enter your nickname" />
+            <a class="join-btn">Join Chat</a>
         </div>
-        <div id="input">
-            <form><input type="text" id="message" /></form>
+
+        <div id="channel" style="display: none;">
+            <div class="message-box" id="msgs">
+                <ul>
+                    <li class="message" style="display: none">
+                        <span class="user"></span><span class="message"></span>
+                        <span class="time"></span>
+                    </li>
+                </ul>
+            </div>
+            <div id="input">
+                <form>
+                    <input type="text" id="message" placeholder="Type a message..." />
+                </form>
+            </div>
         </div>
     </div>
 </body>
